@@ -4451,7 +4451,7 @@ dberr_t row_search_mvcc(byte *buf, page_cur_mode_t mode,
   bool spatial_search = false;
   ulint end_loop = 0;
 
-  int loop_count = 0; // hong
+  //int loop_count = 0; // hong
 
   rec_offs_init(offsets_);
 
@@ -4918,7 +4918,7 @@ dberr_t row_search_mvcc(byte *buf, page_cur_mode_t mode,
   }
 
 rec_loop:
-  loop_count++;
+  //loop_count++;
 
   ut_ad(trx_can_be_handled_by_current_thread(trx));
   DEBUG_SYNC_C("row_search_rec_loop");
@@ -6001,7 +6001,7 @@ normal_return:
 #endif
 
 func_exit:
-  printf("loop_count : %d\n", loop_count);
+  //printf("loop_count : %d\n", loop_count);
   trx->op_info = "";
 
   if (end_range_cache != nullptr) {
