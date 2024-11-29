@@ -1,12 +1,13 @@
 # MySQL-HashJoin-Tracking-and-Time-Profiling
 This codes are customized from 'MySQL-Server 8.0.36' for tracking and profiling hash join
 
-
 all the customized codes can be found by 'Ctrl-F -> hong'
 
 
 
-Profiling Result
+# Profiling Result
+
+using TCP-H Query 3
 
 ![1](https://github.com/user-attachments/assets/490db56b-0135-4f27-8a2e-ac89bdd890d1)
 
