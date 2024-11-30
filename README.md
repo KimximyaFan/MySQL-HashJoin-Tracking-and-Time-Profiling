@@ -67,6 +67,28 @@ make가 끝나시면
 
 # 실행
 
+### MySQL DB 초기화
+
+'groupadd mysql'
+
+'useradd -r -g mysql -s /bin/false mysql'
+
+'cd /usr/local/mysql'
+
+'mkdir mysql-files'
+
+'chown -R mysql:mysql /usr/local/mysql'
+
+'chown mysql:mysql mysql-files' (해당위치: /usr/local/mysql)
+
+'chmod 750 mysql-files'
+
+'bin/mysqld --initialize --user=mysql \
+--basedir=/usr/local/mysql \
+--datadir=/usr/local/mysql/data'
+
+위 명령어들을 모두 실행해 줍니
+
 ### 서버 실행
 'cd /usr/local/mysql' 
 
@@ -78,6 +100,13 @@ make가 끝나시면
 
 ### MySQL 인터페이스 실행
 
+서버를 실행 시켜놓은 채로, new terminal을 엽니다
+
+'cd /usr/local/mysql'
+
+'sudo bin/mysql -u root -p'
+
+그리고 위 명령어를 실행하시면 MySQL 인터페이스를 실행할 수 있습니다
 
 # TCP-H 설치와 실행
 
