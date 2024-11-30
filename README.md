@@ -4,9 +4,15 @@ This codes are customized from 'MySQL-Server 8.0.36' for tracking and profiling 
 all the customized codes can be found by 'Ctrl-F -> hong'
 
 # 실행환경
-우분투
+우분투 운영체제를 사용하였습니다
+저는 VMware 를 이용해서 가상으로 운영체제를 돌렸습니다
 
 # MySQL 8.0.36 다운로드와 소스코드 파일 변경
+일단 깃허브 용량 제한 2GB 때문에
+일반 MySQL을 다운로드합니다
+https://github.com/mysql/mysql-server/tree/mysql-8.0.36
+이 링크에서 MySQL 8.0.36 버전을 다운로드 합니다
+
 
 # 설치
 
