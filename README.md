@@ -83,11 +83,15 @@ make가 끝나시면
 
 'chmod 750 mysql-files'
 
+위 명령어들을 모두 실행해 줍니다
+
 'bin/mysqld --initialize --user=mysql \
 --basedir=/usr/local/mysql \
 --datadir=/usr/local/mysql/data'
 
-위 명령어들을 모두 실행해 줍니
+위 명령어도 실행하는데, 임시 비밀번호가 나오니 잘 확인해두어야 합니다
+
+
 
 ### 서버 실행
 'cd /usr/local/mysql' 
@@ -108,7 +112,48 @@ make가 끝나시면
 
 그리고 위 명령어를 실행하시면 MySQL 인터페이스를 실행할 수 있습니다
 
+alter user 'root'@'localhost' identified by '원하는 비밀번호';
+
+인터페이스 상에서 위 명령어를 실행을 통해 비밀번호를 설정할 수 있습니다
+
 # TCP-H 설치와 실행
+
+'sudo apt install gcc make'
+
+TPC-H 데이터를 생성하기 위해서는 gcc 컴파일러와 make가 필요합니다. 이를 설치합니다.
+
+'git clone https://github.com/electrum/tpch-dbgen.git'
+
+GitHub에서 DBGen을 다운로드합니다.
+
+'cd tpch-dbgen'
+
+'make'
+
+다운로드한 디렉토리로 이동하여 make 명령을 사용해 DBGen을 컴파일합니다.
+
+'ls -l dbgen'
+
+이제 dbgen 실행 파일이 생성되었는지 확인합니다.
+
+'sudo mv tpch-dbgen /usr/local'
+
+tpch-dbgen 폴더를 /usr/local 경로로 옮깁니다<br>
+안옮겨도 무방하지만 저는 옮겼습니다
+
+'./dbgen -s 1'
+
+DBGen을 이용해 데이터를 생성할 수 있습니다. -s 옵션을 통해 데이터 크기를 지정할 수 있으며, -s 1은 1GB의 데이터를 생성합니다. <br>
+위 명령어는 *.tbl 형식의 데이터 파일을 생성합니다. 각 테이블에 대한 데이터 파일이 포함됩니다. 생성된 파일은 다음과 같습니다:
+
+nation.tbl <br>
+region.tbl <br>
+customer.tbl <br>
+orders.tbl <br>
+lineitem.tbl <br>
+part.tbl <br>
+supplier.tbl <br>
+partsupp.tbl <br>
 
 # 함수 추적 과정
 
