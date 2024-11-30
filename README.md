@@ -3,9 +3,22 @@ This codes are customized from 'MySQL-Server 8.0.36' for tracking and profiling 
 
 all the customized codes can be found by 'Ctrl-F -> hong'
 
+# 실행환경
+우분투
 
+# MySQL 8.0.36 다운로드와 소스코드 파일 변경
 
-# Profiling Result
+# 설치
+
+# 실행
+
+# TCP-H 설치와 실행
+
+# 함수 추적 과정
+
+# 시간 측정 과정
+
+# 결론
 
 using TCP-H Query 3
 
