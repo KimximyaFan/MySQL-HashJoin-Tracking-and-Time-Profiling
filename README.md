@@ -122,6 +122,8 @@ alter user 'root'@'localhost' identified by '원하는 비밀번호';
 
 TPC-H 데이터를 생성하기 위해서는 gcc 컴파일러와 make가 필요합니다. 이를 설치합니다.
 
+![image](https://github.com/user-attachments/assets/f3c6bc62-2055-463c-9bc8-900d3333a1a2)
+
 'git clone https://github.com/electrum/tpch-dbgen.git'
 
 GitHub에서 DBGen을 다운로드합니다.
@@ -133,13 +135,16 @@ GitHub에서 DBGen을 다운로드합니다.
 다운로드한 디렉토리로 이동하여 make 명령을 사용해 DBGen을 컴파일합니다.
 
 'ls -l dbgen'
-
 이제 dbgen 실행 파일이 생성되었는지 확인합니다.
+
+![image](https://github.com/user-attachments/assets/127b2959-01d8-45cc-840a-240d7998fd7e)
 
 'sudo mv tpch-dbgen /usr/local'
 
 tpch-dbgen 폴더를 /usr/local 경로로 옮깁니다<br>
 안옮겨도 무방하지만 저는 옮겼습니다
+
+![image](https://github.com/user-attachments/assets/771676a2-19da-4965-bd47-9e9abb90dc26)
 
 './dbgen -s 1'
 
@@ -159,16 +164,23 @@ partsupp.tbl <br>
 'sudo bin/mysql -u root -p --local-infile=1' <br>
 MySQL에 접속합니다. 위 명령어를 이용해주세요
 
+![image](https://github.com/user-attachments/assets/f839a1f7-4654-46e4-b177-12ee0d5553bf)
+
+
 'CREATE DATABASE tpch;'
 'USE tpch;'<br>
 MySQL에 접속한 후 TPC-H 데이터를 위한 데이터베이스를 생성합니다.
 
+![image](https://github.com/user-attachments/assets/c079d41b-d966-4190-a66b-822b7e07f0ad)
+
+![image](https://github.com/user-attachments/assets/c90be4d1-f704-4dcf-99bd-b77d77ccc689)
 
 'source /usr/local/tpch-dbgen/dss.ddl;' <br>
 이 명령어는 /usr/local/tpch-dbgen/ 경로에 있는 dss.ddl 파일을 읽어, <br>
 그 안에 있는 SQL 명령어를 MySQL에서 실행하게 됩니다. <br>
 use tpch;가 이미 설정된 상태이므로, tpch 데이터베이스에 필요한 테이블들이 생성됩니다. <br>
 
+![image](https://github.com/user-attachments/assets/5c23d3ea-05fd-4bc3-bdce-7118add0333d)
 
 LOAD DATA LOCAL INFILE '/usr/local/tpch-dbgen/customer.tbl' <br>
 INTO TABLE CUSTOMER <br>
@@ -225,6 +237,7 @@ FIELDS TERMINATED BY '|' <br>
 LINES TERMINATED BY '\n'; <br>
 SUPPLIER 테이블 데이터 로드
 
+![image](https://github.com/user-attachments/assets/8722586c-c46d-4876-8c54-be82f5f5f9df)
 
 select <br>
 	l_orderkey, <br>
@@ -251,12 +264,70 @@ order by <br>
  <br>
 쿼리 3번 파일을 위 코드와 같이 수정합니다
 
+![image](https://github.com/user-attachments/assets/d29dbb2e-be1d-4100-b92d-98a5153e9afe)
 
 'time /usr/local/mysql/bin/mysql -u root -p tpch < /usr/local/tpch-dbgen/queries/3.sql' <br>
 TPC-H 쿼리 3번 실행
 
 
 # 함수 추적 과정
+
+![1](https://github.com/user-attachments/assets/7713ac47-044a-4881-8b38-2c16f5c7d779)
+
+일단 hash join 키워드가 들어있는 소스코드 파일을 찾아 들어갔습니다
+
+![2](https://github.com/user-attachments/assets/17ed23be-b426-4b7e-9aad-b79c6c726642)
+
+해당 파일들의 모든 함수에 printf 를 찍어보고 추적해본 결과
+
+![3](https://github.com/user-attachments/assets/8593455e-3fe2-4ea2-9e27-deaebb178302)
+
+위 그림과 같은 구조임을 알아냈습니다
+
+![4](https://github.com/user-attachments/assets/cbbd0e78-72d6-41c4-b051-370edf89d3a7)
+
+해쉬조인이 실행되는 쿼리를 수행했더니 mysqld 터미널상에서 printf 가 찍힙니다
+
+![image](https://github.com/user-attachments/assets/5341be20-d9a7-4ddd-b824-c6e3274e3b1d)
+
+수많은 일련의 과정들을 거쳐서 확인해본 결과, 해쉬조인 기능 자체의 응집도가 높게 설계되어 있어서<br>
+외부에서 해쉬조인을 호출하는건, accesspath에서 해쉬조인 이터레이터를 만들고<br>
+sql_union 쪽에서 이터레이터를 실행합니다 
+
+![image](https://github.com/user-attachments/assets/0c5d1e80-0fb7-493d-b267-fbab093e18ce)
+
+사실상 해쉬조인 모듈 호출은 위 코드에서 한 곳밖에 없다고 봐도 무방합니다<br>
+sql_union 에서 이터레이터 실행은 다형성으로 작동하기 때문입니다
+
+![image](https://github.com/user-attachments/assets/8302f1ef-2b8c-4707-8a15-c2d91a0cba12)
+
+그래서 해당 기점을 중심으로 상위 방향으로 함수추적을 쭉 진행하였습니다<br>
+일단 나이브하게 추적해본 결과 sql_union 쪽에서 optimize 함수를 수행하였습니다
+
+![image](https://github.com/user-attachments/assets/0565809b-b531-4a23-bb56-6ce6cdf651cd)
+
+![image](https://github.com/user-attachments/assets/2a697150-7c44-4315-aab3-6e57dfbbf2e1)
+
+![image](https://github.com/user-attachments/assets/54a7682e-e923-44d9-bbfb-44053445b3fb)
+
+똑같은 추적방식으로 계속해서 상위방향으로 함수를 추적해 나갔습니다
+
+![image](https://github.com/user-attachments/assets/b2fda8b5-3b9d-45cb-aae8-3b0aca2f4864)
+
+최종적으로 sql_parse.cc 에서 do_command() 함수라는 곳에 도달하였고, 해당 함수는
+
+![image](https://github.com/user-attachments/assets/ceec1cb5-a1fe-4b72-a1e9-7467cb7e1bdc)
+
+그림과 같이 mysql 인터페이스 상에서 쿼리를 입력 받는 부분임을 알아냈습니다
+
+![image](https://github.com/user-attachments/assets/99280145-6a90-434f-a6b9-1dd18cd2c0f8)
+
+좀 더 디테일하게 추적해본 결과, CreateIteratorFromAccessPath() 에서 해쉬조인 이터레이터를 만들고<br>
+일련의 과정을 거쳐서 sql_union 에서 ExecuteIteratorQuery() 실행 이후 본격적인 해쉬조인이 실행됨을 알 수 있습니다 
+
+![image](https://github.com/user-attachments/assets/6b972f5f-4db2-430d-8afc-561e236b070e)
+
+최종적인 상위에서 해쉬조인 시작까지의 과정인 위 그림과 같습니다
 
 # 시간 측정 과정
 
