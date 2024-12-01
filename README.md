@@ -177,52 +177,52 @@ LINES TERMINATED BY '\n'; <br>
 CUSTOMER 테이블 데이터 로드
 
 
-LOAD DATA LOCAL INFILE '/usr/local/tpch-dbgen/lineitem.tbl'
-INTO TABLE LINEITEM
-FIELDS TERMINATED BY '|'
-LINES TERMINATED BY '\n';
+LOAD DATA LOCAL INFILE '/usr/local/tpch-dbgen/lineitem.tbl' <br>
+INTO TABLE LINEITEM <br>
+FIELDS TERMINATED BY '|' <br>
+LINES TERMINATED BY '\n'; <br>
 LINEITEM 테이블 데이터 로드
 
 
-LOAD DATA LOCAL INFILE '/usr/local/tpch-dbgen/nation.tbl'
-INTO TABLE NATION
-FIELDS TERMINATED BY '|'
-LINES TERMINATED BY '\n';
+LOAD DATA LOCAL INFILE '/usr/local/tpch-dbgen/nation.tbl' <br>
+INTO TABLE NATION <br>
+FIELDS TERMINATED BY '|' <br>
+LINES TERMINATED BY '\n'; <br>
 NATION 테이블 데이터 로드
 
 
-LOAD DATA LOCAL INFILE '/usr/local/tpch-dbgen/orders.tbl'
-INTO TABLE ORDERS
-FIELDS TERMINATED BY '|'
-LINES TERMINATED BY '\n';
+LOAD DATA LOCAL INFILE '/usr/local/tpch-dbgen/orders.tbl' <br>
+INTO TABLE ORDERS <br>
+FIELDS TERMINATED BY '|' <br>
+LINES TERMINATED BY '\n'; <br>
 ORDERS 테이블 데이터 로드
 
 
-LOAD DATA LOCAL INFILE '/usr/local/tpch-dbgen/part.tbl'
-INTO TABLE PART
-FIELDS TERMINATED BY '|'
-LINES TERMINATED BY '\n';
+LOAD DATA LOCAL INFILE '/usr/local/tpch-dbgen/part.tbl' <br>
+INTO TABLE PART <br>
+FIELDS TERMINATED BY '|' <br>
+LINES TERMINATED BY '\n'; <br>
 PART 테이블 데이터 로드
 
 
-LOAD DATA LOCAL INFILE '/usr/local/tpch-dbgen/partsupp.tbl'
-INTO TABLE PARTSUPP
-FIELDS TERMINATED BY '|'
-LINES TERMINATED BY '\n';
+LOAD DATA LOCAL INFILE '/usr/local/tpch-dbgen/partsupp.tbl' <br>
+INTO TABLE PARTSUPP <br>
+FIELDS TERMINATED BY '|' <br>
+LINES TERMINATED BY '\n'; <br>
 PARTSUPP 테이블 데이터 로드
 
 
-LOAD DATA LOCAL INFILE '/usr/local/tpch-dbgen/region.tbl'
-INTO TABLE REGION
-FIELDS TERMINATED BY '|'
-LINES TERMINATED BY '\n';
+LOAD DATA LOCAL INFILE '/usr/local/tpch-dbgen/region.tbl' <br>
+INTO TABLE REGION <br>
+FIELDS TERMINATED BY '|' <br>
+LINES TERMINATED BY '\n'; <br>
 REGION 테이블 데이터 로드
 
 
-LOAD DATA LOCAL INFILE '/usr/local/tpch-dbgen/supplier.tbl'
-INTO TABLE SUPPLIER
-FIELDS TERMINATED BY '|'
-LINES TERMINATED BY '\n';
+LOAD DATA LOCAL INFILE '/usr/local/tpch-dbgen/supplier.tbl' <br>
+INTO TABLE SUPPLIER <br>
+FIELDS TERMINATED BY '|' <br>
+LINES TERMINATED BY '\n'; <br>
 SUPPLIER 테이블 데이터 로드
 
 
