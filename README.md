@@ -155,6 +155,107 @@ part.tbl <br>
 supplier.tbl <br>
 partsupp.tbl <br>
 
+
+'sudo bin/mysql -u root -p --local-infile=1' <br>
+MySQL에 접속합니다. 위 명령어를 이용해주세요
+
+'CREATE DATABASE tpch;'
+'USE tpch;'<br>
+MySQL에 접속한 후 TPC-H 데이터를 위한 데이터베이스를 생성합니다.
+
+
+'source /usr/local/tpch-dbgen/dss.ddl;' <br>
+이 명령어는 /usr/local/tpch-dbgen/ 경로에 있는 dss.ddl 파일을 읽어, <br>
+그 안에 있는 SQL 명령어를 MySQL에서 실행하게 됩니다. <br>
+use tpch;가 이미 설정된 상태이므로, tpch 데이터베이스에 필요한 테이블들이 생성됩니다. <br>
+
+
+LOAD DATA LOCAL INFILE '/usr/local/tpch-dbgen/customer.tbl' <br>
+INTO TABLE CUSTOMER <br>
+FIELDS TERMINATED BY '|' <br>
+LINES TERMINATED BY '\n'; <br>
+CUSTOMER 테이블 데이터 로드
+
+
+LOAD DATA LOCAL INFILE '/usr/local/tpch-dbgen/lineitem.tbl'
+INTO TABLE LINEITEM
+FIELDS TERMINATED BY '|'
+LINES TERMINATED BY '\n';
+LINEITEM 테이블 데이터 로드
+
+
+LOAD DATA LOCAL INFILE '/usr/local/tpch-dbgen/nation.tbl'
+INTO TABLE NATION
+FIELDS TERMINATED BY '|'
+LINES TERMINATED BY '\n';
+NATION 테이블 데이터 로드
+
+
+LOAD DATA LOCAL INFILE '/usr/local/tpch-dbgen/orders.tbl'
+INTO TABLE ORDERS
+FIELDS TERMINATED BY '|'
+LINES TERMINATED BY '\n';
+ORDERS 테이블 데이터 로드
+
+
+LOAD DATA LOCAL INFILE '/usr/local/tpch-dbgen/part.tbl'
+INTO TABLE PART
+FIELDS TERMINATED BY '|'
+LINES TERMINATED BY '\n';
+PART 테이블 데이터 로드
+
+
+LOAD DATA LOCAL INFILE '/usr/local/tpch-dbgen/partsupp.tbl'
+INTO TABLE PARTSUPP
+FIELDS TERMINATED BY '|'
+LINES TERMINATED BY '\n';
+PARTSUPP 테이블 데이터 로드
+
+
+LOAD DATA LOCAL INFILE '/usr/local/tpch-dbgen/region.tbl'
+INTO TABLE REGION
+FIELDS TERMINATED BY '|'
+LINES TERMINATED BY '\n';
+REGION 테이블 데이터 로드
+
+
+LOAD DATA LOCAL INFILE '/usr/local/tpch-dbgen/supplier.tbl'
+INTO TABLE SUPPLIER
+FIELDS TERMINATED BY '|'
+LINES TERMINATED BY '\n';
+SUPPLIER 테이블 데이터 로드
+
+
+select
+	l_orderkey,
+	sum(l_extendedprice * (1 - l_discount)) as revenue,
+	o_orderdate,
+	o_shippriority
+from
+	CUSTOMER,
+	ORDERS,
+	LINEITEM
+where
+	c_mktsegment = 'BUILDING'
+	and c_custkey = o_custkey
+	and l_orderkey = o_orderkey
+	and o_orderdate < date '1995-03-15'
+	and l_shipdate > date '1995-03-15'
+group by
+	l_orderkey,
+	o_orderdate,
+	o_shippriority
+order by
+	revenue desc,
+	o_orderdate;
+
+쿼리 3번 파일을 위 코드와 같이 수정합니다
+
+
+'time /usr/local/mysql/bin/mysql -u root -p tpch < /usr/local/tpch-dbgen/queries/3.sql' <br>
+TPC-H 쿼리 3번 실행
+
+
 # 함수 추적 과정
 
 # 시간 측정 과정
