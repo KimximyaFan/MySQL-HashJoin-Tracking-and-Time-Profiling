@@ -226,29 +226,29 @@ LINES TERMINATED BY '\n'; <br>
 SUPPLIER 테이블 데이터 로드
 
 
-select
-	l_orderkey,
-	sum(l_extendedprice * (1 - l_discount)) as revenue,
-	o_orderdate,
-	o_shippriority
-from
-	CUSTOMER,
-	ORDERS,
-	LINEITEM
-where
-	c_mktsegment = 'BUILDING'
-	and c_custkey = o_custkey
-	and l_orderkey = o_orderkey
-	and o_orderdate < date '1995-03-15'
-	and l_shipdate > date '1995-03-15'
-group by
-	l_orderkey,
-	o_orderdate,
-	o_shippriority
-order by
-	revenue desc,
-	o_orderdate;
-
+select <br>
+	l_orderkey, <br>
+	sum(l_extendedprice * (1 - l_discount)) as revenue, <br>
+	o_orderdate, <br>
+	o_shippriority <br>
+from <br>
+	CUSTOMER, <br>
+	ORDERS, <br>
+	LINEITEM <br>
+where <br>
+	c_mktsegment = 'BUILDING' <br>
+	and c_custkey = o_custkey <br>
+	and l_orderkey = o_orderkey <br>
+	and o_orderdate < date '1995-03-15' <br>
+	and l_shipdate > date '1995-03-15' <br>
+group  <br>
+	l_orderkey, <br>
+	o_orderdate, <br>
+	o_shippriority <br>
+order by <br>
+	revenue desc, <br>
+	o_orderdate; <br>
+ <br>
 쿼리 3번 파일을 위 코드와 같이 수정합니다
 
 
