@@ -331,6 +331,51 @@ sql_union 에서 이터레이터 실행은 다형성으로 작동하기 때문�
 
 # 시간 측정 과정
 
+![image](https://github.com/user-attachments/assets/d475453f-0a53-4e0f-b9f4-bb7830254ccb)
+![image](https://github.com/user-attachments/assets/ce9beb81-0393-493a-98a8-e74b688b0a4c)
+
+일단 첫번째로 해볼 것은 <br>
+전체 시간 중 해쉬조인이 시간을 얼마나 차지하는지, 다른 기능은 시간이 얼마나 걸리는지 <br>
+전체 시간을 측정하는 것입니다 <br>
+TCP-H 쿼리3 번을 실행하면 위 그림과 같이 <br>
+do_command() 가 두 번 찍힙니다 <br>
+첫 번째 do_command()는 모르는 쿼리이고 두 번째 쿼리가 해쉬조인을 수행하므로 <br>
+일단 저 두 쿼리를 나눠서 시간을 측정합니다
+
+![image](https://github.com/user-attachments/assets/2afee973-90b6-4736-bf45-7ccd9e9ad4fa)
+
+시간 측정에 쓰는 define으로 만든 함수입니다
+
+![image](https://github.com/user-attachments/assets/c06a2270-4457-4d4b-919a-91dff6eef972)
+
+위 두 구간 시간 측정을 위한 변수들입니다
+
+![image](https://github.com/user-attachments/assets/cfd319e1-48fc-451f-8188-34c69fd5d726)
+
+![image](https://github.com/user-attachments/assets/3af99c32-347d-4c31-a176-c1bc9c4764d3)
+
+do_command() 함수를 래퍼로 감싸서 시작시간을 측정하고 <br>
+쿼리가 끝날 때 Check_secondary_engine_statement() 도 항상 실행하므로 <br> 
+해당 함수도 래퍼를 이용해서 종료 시간을 측정합니다 
+
+![image](https://github.com/user-attachments/assets/3f90bcb9-5eac-4742-881b-1d7c31589753)
+
+![image](https://github.com/user-attachments/assets/595e0ef9-a1fa-4a70-b884-b7659f21b26a)
+
+![image](https://github.com/user-attachments/assets/5c5c851e-e0f1-4689-a40c-3fb1998f7564)
+
+![image](https://github.com/user-attachments/assets/80bc98be-a2d0-4049-91c3-e920fdcaa99a)
+
+TCP-H 쿼리 3번은 해쉬조인 관련 쿼리가 92%의 시간을 차지하므로<br>
+해쉬조인쪽으로 시간 분석을 들어가는게 타당함을 알 수 있습니다
+
+![image](https://github.com/user-attachments/assets/11c9d4cb-2d85-483d-9f6c-3065c9a5e82c)
+
+![image](https://github.com/user-attachments/assets/60efc5a9-baf2-46fc-a86f-e0c332611d0c)
+
+![image](https://github.com/user-attachments/assets/e24ba489-c354-4f03-889c-edb34cf73237)
+
+
 # 결론
 
 using TCP-H Query 3
