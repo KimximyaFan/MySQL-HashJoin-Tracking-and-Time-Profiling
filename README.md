@@ -375,6 +375,79 @@ TCP-H 쿼리 3번은 해쉬조인 관련 쿼리가 92%의 시간을 차지하므
 
 ![image](https://github.com/user-attachments/assets/e24ba489-c354-4f03-889c-edb34cf73237)
 
+위 그림은 의도적으로 해쉬조인을 유도한 쿼리를 실행 했을 때 함수의 추적입니다 <br>
+하얗게 박스친 부분이 높은 반복으로 나타난 구간을 의미합니다 <br>
+직관적으로 보면, 반복되는 함수들이 실행시간 총합이 높을 것이므로<br>
+저기에 있는 함수들을 골라서 시간을 측정해보는게 타당합니다
+
+![image](https://github.com/user-attachments/assets/27266ef7-719b-45b5-8495-7818552f0e19)
+
+![image](https://github.com/user-attachments/assets/32bfd947-91ea-49b3-9e4d-fd3e63f06ba7)
+
+![image](https://github.com/user-attachments/assets/47936d95-ba70-49c3-a266-eb4f1a923dfc)
+
+정리 해보면 위 그림과 같은 함수들이 나오는데 <br>
+chunk 생성자 소멸자는 추적이 까다로워서 스킵했습니다 <br>
+그리고 StoreRow(),  ReadRowFromProbeIterator() 관련 함수 시간을 측정 했습니다 <br>
+
+![image](https://github.com/user-attachments/assets/089e7401-368c-445a-8e87-44e221a01aaf)
+
+![image](https://github.com/user-attachments/assets/d91e7bdd-c4c1-48ba-8d94-c819368f7f38)
+
+![image](https://github.com/user-attachments/assets/945ef834-fd55-4c54-b842-8272eb4b8ac3)
+
+StoreRow() 관련 시간 측정입니다
+
+![image](https://github.com/user-attachments/assets/9169cb8d-dcc8-442c-9fbd-c0596a03dd24)
+
+![image](https://github.com/user-attachments/assets/a6bb535f-d09a-4e36-9b38-26cd982c9b3c)
+
+![image](https://github.com/user-attachments/assets/dff8590c-9382-4a96-bcc7-a170264ad761)
+
+위 그림처럼 시간을 구했었고
+
+![image](https://github.com/user-attachments/assets/6c4c9a43-58c5-4018-9bc4-df3b9e759459)
+
+![image](https://github.com/user-attachments/assets/58f76fc9-742b-44e0-a06b-1d98b18d091e)
+
+![image](https://github.com/user-attachments/assets/e97d7eac-fde6-49cc-9627-c4b4a0930ff0)
+
+StoreRow() 관련 함수들은 해쉬조인 관련 시간중에서 극히 낮은 비중을 차지함을 알아냈습니다
+
+![image](https://github.com/user-attachments/assets/9ba506e9-85b4-4846-9ed2-1f774dff0f46)
+
+![image](https://github.com/user-attachments/assets/4d52cc38-9477-4c6a-a59f-4b3d59ec3edc)
+
+![image](https://github.com/user-attachments/assets/b50e6300-91ff-45ec-9967-3b802b26f548)
+
+Read Row From Probe Iterator 관련 시간측정 변수들입니다
+
+![image](https://github.com/user-attachments/assets/447606df-4a82-4086-9b14-0431ff59b280)
+
+![image](https://github.com/user-attachments/assets/f632ec52-a692-435f-87b0-81d076ad5cc6)
+
+![image](https://github.com/user-attachments/assets/2ee5e3b1-79e4-4438-9681-f85e3c05a4a6)
+
+![image](https://github.com/user-attachments/assets/56ab2f95-1b0d-47f3-a498-8b77c4283699)
+
+![image](https://github.com/user-attachments/assets/b5475857-f6d8-4795-947c-e24aa00b79b8)
+
+![image](https://github.com/user-attachments/assets/72521acb-8815-4c88-b7f4-f14ef73cbcbc)
+
+![image](https://github.com/user-attachments/assets/924f784e-78b2-4dc6-adda-19df72af7fe7)
+
+![image](https://github.com/user-attachments/assets/84c6e8a1-9372-4067-ab34-001863c8bb6a)
+
+![image](https://github.com/user-attachments/assets/6a0c2087-15e9-4dde-921c-4726b27ed3c1)
+
+![image](https://github.com/user-attachments/assets/b3e03678-e761-44a3-8567-01c4fa78f45c)
+
+결과를 보면 <br>
+ReadRowFromProbeIterator() <br>
+ReadNextJoinedRowFromHashTable() <br>
+위 두 함수의 실행시간 총합이 굉장히 높은 비율을 차지함을 알 수 있습니다 <br>
+그렇다면 해당 함수를 파고드는게 타당합니다
+
 
 # 결론
 
