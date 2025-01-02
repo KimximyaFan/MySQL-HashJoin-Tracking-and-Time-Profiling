@@ -70,8 +70,13 @@ class TableScanIterator final : public TableRowIterator {
                     ha_rows *examined_rows);
   ~TableScanIterator() override;
 
+  int Read_Custom();
+  int Read_Original();
+
   bool Init() override;
   int Read() override;
+
+  
 
  private:
   uchar *const m_record;
