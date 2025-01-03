@@ -6001,7 +6001,7 @@ normal_return:
 #endif
 
 func_exit:
-  printf("loop_count : %d\n", loop_count);
+  //printf("loop_count : %d\n", loop_count);
   trx->op_info = "";
 
   if (end_range_cache != nullptr) {

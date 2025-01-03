@@ -1305,7 +1305,7 @@ static bool sqlcom_needs_autocommit_off(const LEX *lex) {
 
 void execute_init_command(THD *thd, LEX_STRING *init_command,
                           mysql_rwlock_t *var_lock) {
-  printf("sql_parse.cc\n execute_init_command() \n"); // hong
+  // printf("sql_parse.cc\n execute_init_command() \n"); // hong
   Protocol_classic *protocol = thd->get_protocol_classic();
   Vio *save_vio;
   ulong save_client_capabilities;
@@ -1426,7 +1426,7 @@ bool do_command(THD *thd) // hong
 }
 
 bool do_command_original(THD *thd) {
-  printf("sql_parse.cc\n do_command_original() \n"); // hong
+  // printf("sql_parse.cc\n do_command_original() \n"); // hong
 
   bool return_value;
   int rc;
@@ -1816,7 +1816,7 @@ static void check_secondary_engine_statement_original(THD *thd,
                                              Parser_state *parser_state,
                                              const char *query_string,
                                              size_t query_length) {
-  printf("sql_parse.cc\n check_secondary_engine_statement() \n"); // hong
+  // printf("sql_parse.cc\n check_secondary_engine_statement() \n"); // hong
   bool use_secondary_engine = false;
 
   // Only restart the statement if a non-fatal error was raised.
@@ -1947,7 +1947,7 @@ void call_gr_incoming_connection_cb(THD *thd, int fd, SSL *ssl_ctx) {
 */
 static void copy_bind_parameter_values(THD *thd, PS_PARAM *parameters,
                                        unsigned long count) {
-  printf("sql_parse.cc\n copy_bind_parameter_values() \n"); // hong
+  // printf("sql_parse.cc\n copy_bind_parameter_values() \n"); // hong
   thd->bind_parameter_values = parameters;
   thd->bind_parameter_values_count = count;
   unsigned long inx;
@@ -1986,7 +1986,7 @@ static void copy_bind_parameter_values(THD *thd, PS_PARAM *parameters,
 */
 bool dispatch_command(THD *thd, const COM_DATA *com_data,
                       enum enum_server_command command) {
-  printf("sql_parse.cc\n dispatch_command() \n"); // hong
+  // printf("sql_parse.cc\n dispatch_command() \n"); // hong
   assert(thd->lex->m_IS_table_stats.is_valid() == false);
   assert(thd->lex->m_IS_tablespace_stats.is_valid() == false);
 #ifndef NDEBUG
@@ -3244,7 +3244,7 @@ static inline void binlog_gtid_end_transaction(THD *thd) {
 */
 
 int mysql_execute_command(THD *thd, bool first_level) {
-  printf("sql_parse.cc\n mysql_execute_command() \n"); // hong
+  // printf("sql_parse.cc\n mysql_execute_command() \n"); // hong
   int res = false;
   LEX *const lex = thd->lex;
   /* first Query_block (have special meaning for many of non-SELECTcommands) */
@@ -5539,7 +5539,7 @@ void statement_id_to_session(THD *thd) {
 */
 
 void dispatch_sql_command(THD *thd, Parser_state *parser_state) {
-  printf("sql_parse.cc\n dispatch_sql_command() \n"); // hong
+  // printf("sql_parse.cc\n dispatch_sql_command() \n"); // hong
   DBUG_TRACE;
   DBUG_PRINT("dispatch_sql_command", ("query: '%s'", thd->query().str));
   statement_id_to_session(thd);
